@@ -1,0 +1,3 @@
+<resources>
+  <style name="Theme.Fit" parent="android:Theme.Material.NoActionBar" />
+</resources>

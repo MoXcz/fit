@@ -1,0 +1,17 @@
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- App mark: a dumbbell, inside the adaptive icon safe zone (66 dp circle). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+  android:width="108dp"
+  android:height="108dp"
+  android:viewportWidth="108"
+  android:viewportHeight="108">
+  <path
+    android:fillColor="#CAEBC6"
+    android:pathData="M43,51.5 H65 V56.5 H43 Z" />
+  <path
+    android:fillColor="#CAEBC6"
+    android:pathData="M39,40 H40 A3,3 0 0 1 43,43 V65 A3,3 0 0 1 40,68 H39 A3,3 0 0 1 36,65 V43 A3,3 0 0 1 39,40 Z M68,40 H69 A3,3 0 0 1 72,43 V65 A3,3 0 0 1 69,68 H68 A3,3 0 0 1 65,65 V43 A3,3 0 0 1 68,40 Z" />
+  <path
+    android:fillColor="#CAEBC6"
+    android:pathData="M33.5,45 A2.5,2.5 0 0 1 36,47.5 V60.5 A2.5,2.5 0 0 1 33.5,63 A2.5,2.5 0 0 1 31,60.5 V47.5 A2.5,2.5 0 0 1 33.5,45 Z M74.5,45 A2.5,2.5 0 0 1 77,47.5 V60.5 A2.5,2.5 0 0 1 74.5,63 A2.5,2.5 0 0 1 72,60.5 V47.5 A2.5,2.5 0 0 1 74.5,45 Z" />
+</vector>

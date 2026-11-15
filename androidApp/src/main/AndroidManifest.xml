@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools">
+
+  <!-- The running workout or guided session (docs/engineering.md §10): a foreground service with the
+       rest, hold or step, its notification, an exact alarm at its end, and the end beep's vibration.
+       POST_NOTIFICATIONS also shows the daily reminders. -->
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <!-- Rest and hold end must be on time. USE_EXACT_ALARM is granted to timer apps on 33+. -->
+  <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+  <uses-permission
+    android:name="android.permission.SCHEDULE_EXACT_ALARM"
+    android:maxSdkVersion="32" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <!-- Alarms don't survive a restart: the daily reminders are scheduled again after one. -->
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+  <!-- No INTERNET permission: nothing goes to the network (docs/engineering.md §10).
+       DataExtractionRules: below Android 12 allowBackup="false" already excludes everything, so a
+       fullBackupContent file would add nothing. -->
+  <application
+    android:name=".FitApp"
+    android:allowBackup="false"
+    android:dataExtractionRules="@xml/data_extraction_rules"
+    android:enableOnBackInvokedCallback="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:supportsRtl="true"
+    android:theme="@style/Theme.Fit"
+    tools:ignore="DataExtractionRules"
+    tools:targetApi="33">
+
+    <!-- singleTop: a shortcut or the notification reaches the running activity (onNewIntent) instead
+         of stacking a second one. -->
+    <activity
+      android:name=".MainActivity"
+      android:exported="true"
+      android:launchMode="singleTop">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+      <!-- Import (docs/engineering.md §10): a .md file or a .zip pack shared with Fit or opened with
+           it. Files of no known type come as application/octet-stream; plain text is left out, so
+           Fit isn't offered for every shared piece of text. -->
+      <intent-filter android:label="@string/import_into">
+        <action android:name="android.intent.action.SEND" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:mimeType="text/markdown" />
+        <data android:mimeType="text/x-markdown" />
+        <data android:mimeType="application/zip" />
+        <data android:mimeType="application/x-zip-compressed" />
+        <data android:mimeType="application/octet-stream" />
+      </intent-filter>
+      <intent-filter android:label="@string/import_into">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="content" />
+        <data android:mimeType="text/markdown" />
+        <data android:mimeType="text/x-markdown" />
+        <data android:mimeType="application/zip" />
+        <data android:mimeType="application/x-zip-compressed" />
+        <data android:mimeType="application/octet-stream" />
+      </intent-filter>
+      <meta-data
+        android:name="android.app.shortcuts"
+        android:resource="@xml/shortcuts" />
+    </activity>
+
+    <service
+      android:name=".service.SessionService"
+      android:exported="false"
+      android:foregroundServiceType="specialUse">
+      <property
+        android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+        android:value="Keeps a user-started workout rest, timed set or follow-along stretching session counting down and visible until it ends" />
+    </service>
+
+    <receiver
+      android:name=".alarm.SessionEndReceiver"
+      android:exported="false" />
+
+    <!-- The alarm of the next daily reminder (docs/engineering.md §10). -->
+    <receiver
+      android:name=".reminder.ReminderReceiver"
+      android:exported="false" />
+
+    <!-- Schedules the reminders again after a restart, an update, or a clock or time-zone change.
+         Disabled until a reminder is switched on. -->
+    <receiver
+      android:name=".reminder.ReminderRestartReceiver"
+      android:enabled="false"
+      android:exported="false">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+        <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+        <action android:name="android.intent.action.TIME_SET" />
+      </intent-filter>
+    </receiver>
+  </application>
+</manifest>
