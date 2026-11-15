@@ -68,6 +68,11 @@ import app.fit.programs.ui.ProgramEditorRoute
 import app.fit.recovery.ui.RecoverRoute
 import app.fit.recovery.ui.SessionRoute
 import app.fit.resources.Res
+import app.fit.resources.about_credits
+import app.fit.resources.about_licence
+import app.fit.resources.about_source
+import app.fit.resources.about_version
+import app.fit.resources.app_name
 import app.fit.resources.ic_fitness_center
 import app.fit.resources.ic_fitness_center_filled
 import app.fit.resources.ic_more_horiz
@@ -76,6 +81,7 @@ import app.fit.resources.ic_self_improvement
 import app.fit.resources.ic_self_improvement_filled
 import app.fit.resources.ic_today
 import app.fit.resources.ic_today_filled
+import app.fit.resources.more_about
 import app.fit.resources.more_title
 import app.fit.resources.recover_title
 import app.fit.resources.today_title
@@ -386,7 +392,17 @@ private fun AppContent(
                     }
                     entry<Route.About> {
                         AboutScreen(
-                            version = koinInject<AppInfo>().version,
+                            title = stringResource(Res.string.more_about),
+                            name = stringResource(Res.string.app_name),
+                            version = stringResource(Res.string.about_version, koinInject<AppInfo>().version),
+                            licence = stringResource(Res.string.about_licence),
+                            credits = stringResource(Res.string.about_credits),
+                            links =
+                                listOf(
+                                    AboutLink(stringResource(Res.string.about_source), "https://github.com/MoXcz/fit"),
+                                    AboutLink("Hush", "https://github.com/MoXcz/hush"),
+                                    AboutLink("Tomato", "https://github.com/nsh07/Tomato"),
+                                ),
                             modifier = screen,
                             onBack = { if (backStack.lastOrNull() == Route.About) backStack.removeLastOrNull() },
                         )

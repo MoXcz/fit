@@ -10,6 +10,11 @@ and date.
 
 ## Unreleased
 
+### Changed
+
+- Settings switches show a check mark when on, and settings rows react to a press like the rest of
+  the app's lists.
+
 ## 1.0.0
 
 The first public release.

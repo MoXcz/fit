@@ -7,18 +7,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -44,10 +37,10 @@ import app.fit.ui.ChoiceRow
 import app.fit.ui.ScreenTitle
 import app.fit.ui.ScreenTopBar
 import app.fit.ui.SectionTitle
-import app.fit.ui.Stepper
+import app.fit.ui.StepperRow
+import app.fit.ui.SwitchRow
 import app.fit.ui.formatNumber
 import app.fit.ui.theme.FitTheme
-import app.fit.ui.theme.segmentShape
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -127,40 +120,18 @@ fun SettingsScreen(
                 index,
                 (unit, label),
                 ->
-                ListItem(
-                    modifier = Modifier.clip(segmentShape(index, 2)),
-                    colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceBright),
-                    headlineContent = { Text(stringResource(label)) },
-                    trailingContent = {
-                        Stepper(
-                            value = "${formatNumber(settings.bar(unit))} ${unit.symbol}",
-                            canDecrease = settings.canStepBar(unit, up = false),
-                            canIncrease = settings.canStepBar(unit, up = true),
-                            onStep = { up -> onAction(SettingsAction.StepBar(unit, up)) },
-                        )
-                    },
+                StepperRow(
+                    label = stringResource(label),
+                    value = "${formatNumber(settings.bar(unit))} ${unit.symbol}",
+                    canDecrease = settings.canStepBar(unit, up = false),
+                    canIncrease = settings.canStepBar(unit, up = true),
+                    onStep = { up -> onAction(SettingsAction.StepBar(unit, up)) },
+                    index = index,
+                    count = 2,
                 )
             }
         }
     }
-}
-
-@Composable
-private fun SwitchRow(
-    label: String,
-    supporting: String,
-    checked: Boolean,
-    onChange: (Boolean) -> Unit,
-    index: Int,
-    count: Int,
-) {
-    ListItem(
-        modifier = Modifier.clip(segmentShape(index, count)).toggleable(value = checked, role = Role.Switch, onValueChange = onChange),
-        colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceBright),
-        headlineContent = { Text(label) },
-        supportingContent = { Text(supporting) },
-        trailingContent = { Switch(checked = checked, onCheckedChange = null) },
-    )
 }
 
 @Preview

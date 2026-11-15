@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SegmentedListItem
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import app.fit.resources.Res
 import app.fit.resources.bodyweight_title
 import app.fit.resources.history_title
-import app.fit.resources.ic_keyboard_arrow_right
 import app.fit.resources.more_about
 import app.fit.resources.more_data
 import app.fit.resources.more_help
@@ -25,9 +21,6 @@ import app.fit.resources.more_import
 import app.fit.resources.more_title
 import app.fit.resources.settings_title
 import app.fit.ui.theme.FitTheme
-import app.fit.ui.theme.segmentedColors
-import app.fit.ui.theme.segmentedShapes
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -55,12 +48,7 @@ fun MoreScreen(
                     Res.string.more_about to onOpenAbout,
                 )
             rows.forEachIndexed { index, (label, onClick) ->
-                SegmentedListItem(
-                    onClick = onClick,
-                    shapes = segmentedShapes(index, rows.size),
-                    colors = segmentedColors,
-                    trailingContent = { Icon(painterResource(Res.drawable.ic_keyboard_arrow_right), contentDescription = null) },
-                ) { Text(stringResource(label)) }
+                NavRow(label = stringResource(label), onClick = onClick, index = index, count = rows.size)
             }
         }
     }

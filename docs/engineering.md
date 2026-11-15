@@ -206,6 +206,10 @@ session, not to the screen, so moving between exercises never cancels it (a bug 
   button, and in the focus view it is under the top bar while the sheet is closed.
 - **Accessibility:** 48 dp touch targets, content descriptions on icon buttons, large text and
   reduced motion respected, readable muted text in both themes.
+- **Shared with Hush:** `ui/SettingsRows.kt` (section title, switch, navigation, link and stepper
+  rows), `ui/AboutScreen.kt` and `ui/ScreenTopBar.kt` are the same files in both apps, apart from
+  the package and resource names. A settings page is built from these rows only. Change one of
+  these files in both repos, so the apps keep the same settings look.
 
 ## 9. Expect/actual vs interfaces
 

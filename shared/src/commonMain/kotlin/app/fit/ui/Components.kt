@@ -2,12 +2,6 @@
 // Copyright (c) 2025-2026 Nishant Mishra (Tomato, https://github.com/nsh07/Tomato): adapted from the settings screens.
 package app.fit.ui
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,92 +46,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.fit.resources.Res
-import app.fit.resources.decrease
-import app.fit.resources.ic_add
 import app.fit.resources.ic_more_vert
-import app.fit.resources.ic_remove
-import app.fit.resources.increase
 import app.fit.resources.more_options
 import app.fit.resources.undo
 import app.fit.ui.theme.segmentShape
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-
-@Composable
-internal fun SectionTitle(
-    text: String,
-    modifier: Modifier = Modifier,
-) {
-    Text(
-        text,
-        style = MaterialTheme.typography.titleSmall,
-        color = MaterialTheme.colorScheme.primary,
-        modifier = modifier.padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 8.dp),
-    )
-}
-
-// −/+ around a value that rolls up or down with the step.
-@Composable
-internal fun Stepper(
-    value: String,
-    canDecrease: Boolean,
-    canIncrease: Boolean,
-    onStep: (up: Boolean) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val motionScheme = MaterialTheme.motionScheme
-    var lastUp by remember { mutableStateOf(true) }
-    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-        FilledTonalIconButton(
-            onClick = {
-                lastUp = false
-                onStep(false)
-            },
-            enabled = canDecrease,
-            shapes = IconButtonDefaults.shapes(),
-        ) {
-            Icon(painterResource(Res.drawable.ic_remove), contentDescription = stringResource(Res.string.decrease))
-        }
-        AnimatedContent(
-            targetState = value,
-            transitionSpec = {
-                val spec = motionScheme.defaultSpatialSpec<IntOffset>()
-                val sign = if (lastUp) 1 else -1
-                (slideInVertically(spec) { sign * it } + fadeIn(motionScheme.defaultEffectsSpec())) togetherWith
-                    (slideOutVertically(spec) { -sign * it } + fadeOut(motionScheme.fastEffectsSpec()))
-            },
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.widthIn(min = 80.dp),
-        ) {
-            Text(it, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleMedium)
-        }
-        FilledTonalIconButton(
-            onClick = {
-                lastUp = true
-                onStep(true)
-            },
-            enabled = canIncrease,
-            shapes = IconButtonDefaults.shapes(),
-        ) {
-            Icon(painterResource(Res.drawable.ic_add), contentDescription = stringResource(Res.string.increase))
-        }
-    }
-}
 
 // How many wipes and restores this process has seen (DataResets), for offers that hold old rows.
 val LocalDataEpoch = staticCompositionLocalOf { 0 }

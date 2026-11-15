@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 package app.fit.ui.test
 
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.onAllNodesWithContentDescription
@@ -37,6 +41,7 @@ class SettingsUiTest {
             val repository = FakeSettingsRepository()
             setScreen { SettingsRoute(onBack = {}, viewModel = SettingsViewModel(repository).clearedAfterTest()) }
             onNodeWithText("Alarm").assertIsOn()
+            onNodeWithText("Alarm").assert(SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Switch))
             onNodeWithText("Keep screen on").assertIsOn()
             onNodeWithText("Auto-advance").assertIsOn()
             onNodeWithText("20 kg").assertExists()
