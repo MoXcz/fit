@@ -10,6 +10,8 @@ and date.
 
 ## Unreleased
 
+## 1.1.0 (2026-11-15)
+
 ### Changed
 
 - Settings switches show a check mark when on, and settings rows react to a press like the rest of
