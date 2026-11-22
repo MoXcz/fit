@@ -1,9 +1,11 @@
 # Fit
 
+> Another vibe-coded app (see [hush](https://github.com/moxcz/hush)). Design based on [Tomato](https://github.com/nsh07/Tomato)
+
 A small workout app for Android. No accounts, and nothing goes to the internet.
 
-| Today | Workout | Recovery session | History |
-| --- | --- | --- | --- |
+| Today                                                      | Workout                                                    | Recovery session                                    | History                                               |
+| ---------------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------- |
 | ![Today with a workout in progress](docs/images/today.png) | ![The workout dial during a rest](docs/images/workout.png) | ![A recovery session step](docs/images/session.png) | ![History with a day picked](docs/images/history.png) |
 
 ## What it does
@@ -27,9 +29,12 @@ which the app also shows under More → Help.
 
 ## Installing
 
-Fit is in development; the first release will be 1.0.0, with APKs on the
-[releases page](https://github.com/MoXcz/fit/releases). Until then, build it from source:
-[docs/building.md](docs/building.md). It needs Android 8.0 or later.
+Download the APK for the newest version from the
+[releases page](https://github.com/MoXcz/fit/releases/latest) and open it on the phone. Pick
+`arm64-v8a` (almost every current phone) or `universal`, which works on every phone and is twice the
+size. Fit needs Android 8.0 or later.
+
+To build it from source instead, see [docs/building.md](docs/building.md).
 
 ## Credits and licences
 
