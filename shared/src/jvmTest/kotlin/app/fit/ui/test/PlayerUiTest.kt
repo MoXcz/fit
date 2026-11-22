@@ -252,6 +252,9 @@ class PlayerUiTest {
                 screenshot("player-warmup-reps")
                 overflow("Skip warm-up")
                 assertEquals(listOf(main), continued)
+                // Nothing of the ended session shows while the workout opens.
+                onNodeWithText("No session is running.").assertDoesNotExist()
+                onNodeWithText("Ended").assertDoesNotExist()
             }
         }
 

@@ -27,7 +27,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -110,15 +112,24 @@ fun PlayerRoute(
     viewModel: PlayerViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var left by remember { mutableStateOf(false) }
     LaunchedEffect(state.continueTo, state.leave) {
         val next = state.continueTo
         if (next != null || state.leave) {
+            left = true
             viewModel.onAction(PlayerAction.ContinueSeen)
             if (next != null) onContinue(next) else onBack()
         }
     }
     if (state.keepScreenOn && state.guided.active) KeepScreenOn()
-    PlayerScreen(state = state, onAction = viewModel::onAction, onBack = onBack, modifier = modifier)
+    // A warm-up's end screen and the empty player would only flash by on the way to the workout.
+    val leaving = left || (state.warmup && state.phase == GuidedPhase.Finished)
+    PlayerScreen(
+        state = if (leaving) state.copy(loading = true) else state,
+        onAction = viewModel::onAction,
+        onBack = onBack,
+        modifier = modifier,
+    )
 }
 
 // The dial with steps instead of sets: the item's name and cue, the ring as its countdown (or its

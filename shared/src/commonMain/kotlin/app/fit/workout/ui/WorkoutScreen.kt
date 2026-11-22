@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -276,7 +277,15 @@ fun WorkoutScreen(
                 }
             },
         ) {
-            Column(Modifier.fillMaxSize().padding(bottom = if (block != null) peek else 0.dp).imePadding()) {
+            // The keyboard covers the peek, so its height counts once: adding both left the ring no room.
+            val under = PaddingValues(bottom = if (block != null) peek else 0.dp)
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .padding(under)
+                    .consumeWindowInsets(under)
+                    .imePadding(),
+            ) {
                 TopBar(state = state, onAction = onAction, onBack = onBack)
                 when {
                     block != null && day != null -> {

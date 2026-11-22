@@ -10,6 +10,13 @@ and date.
 
 ## Unreleased
 
+### Fixed
+
+- Typing a weight or reps on the workout dial no longer shrinks the ring to a small circle while the
+  keyboard is open.
+- A finished warm-up opens the first exercise without flashing its end screen or "No session is
+  running" on the way.
+
 ## 1.1.0 (2026-11-15)
 
 ### Changed
