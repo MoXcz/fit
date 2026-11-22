@@ -10,6 +10,8 @@ and date.
 
 ## Unreleased
 
+## 1.2.0 (2026-11-22)
+
 ### Fixed
 
 - Typing a weight or reps on the workout dial no longer shrinks the ring to a small circle while the
